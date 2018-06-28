@@ -43,6 +43,6 @@
 #endif
 
 int read_network(char *namefile);
-int explosive_sigma1(double threshold);
+int explosive_immunization(double threshold, int sigma, int nn);
 int make_network();
 int print_threshold_conditions();

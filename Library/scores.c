@@ -84,6 +84,6 @@ double count_sigma1(Node *graph, int id){
       }
     }
 
-  return c;
+  return graph[id].effective_degree+c;
 }
 

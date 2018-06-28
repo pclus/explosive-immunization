@@ -6,7 +6,6 @@
 double newman_ziff(Node *graph, int *largest, double *stilde){
   int i,j,k, largest_size=1, nnodes=0;
   Node *root1, *root2, *aux;
-  
   for(i=0;i<N;i++){
     graph[i].pointer=graph+i;
     graph[i].cluster_size=graph[i].n;

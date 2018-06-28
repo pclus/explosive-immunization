@@ -21,22 +21,32 @@ int main(int argc, char **argv){
 	eff_thr=6; 					// effective degree cut-off
 	effective_degree(graph); 			// effective degree computation
 	root=(int *) malloc(sizeof(int)*BUFFER);	//needed for the computation of scores, auxiliar.
-
+	initialize_rng(time(0));
 	double threshold=1./sqrt(N); 	//threshold two start sigma2
 	struct timeval time_begin, time_end;
 //----------------------------------------------
-/*	 COMPUTING 	*/
+/*	 COMPUTING SIGMA 1	*/
 //----------------------------------------------
 	gettimeofday(&time_begin, NULL);  
-	explosive_sigma1(threshold);
+	explosive_immunization(threshold,1,0);
 	gettimeofday(&time_end, NULL);
+	double elapsed_time_sigma1=(time_end.tv_sec-time_begin.tv_sec)+(time_end.tv_usec-time_begin.tv_usec)*1.0e-6;
+//----------------------------------------------
+/*	 COMPUTING SIGMA 2	*/
+//----------------------------------------------
+	int nn=reset_net(graph);
+        gettimeofday(&time_begin, NULL);
+        explosive_immunization(threshold,2,nn);
+        gettimeofday(&time_end, NULL);
+	double elapsed_time_sigma2=(time_end.tv_sec-time_begin.tv_sec)+(time_end.tv_usec-time_begin.tv_usec)*1.0e-6;
+
+
 
 //----------------------------------------------
 /*	 PRINT TIMES	*/
 //----------------------------------------------
-	double elapsed_time=(time_end.tv_sec-time_begin.tv_sec)+(time_end.tv_usec-time_begin.tv_usec)*1.0e-6;
 	FILE *ftime=fopen("times.dat","a");
- 	fprintf(ftime, "%d %.16g\n", kk, elapsed_time);
+ 	fprintf(ftime, "%d %.16g %.16g\n", kk, elapsed_time_sigma1, elapsed_time_sigma2);
 	fclose(ftime);
 
 //----------------------------------------------
@@ -59,7 +69,6 @@ int read_network(char *namefile){
 		fprintf(stderr,"ERROR: program breaking\n");
 		return -1;
 	}
-	fprintf(stderr,"done!\n");
 
 	for(i=0;i<N;i++)
 	    graph[i].n=0;
@@ -67,15 +76,15 @@ int read_network(char *namefile){
 	return 1;
 }
 
-int explosive_sigma1(double threshold){
-	int id, i, j,id_min, imax, nnodes, id_aux, flag=0, largest=0;
+int explosive_immunization(double threshold, int sigma, int init){
+	int id, i, j,id_min, imax, nnodes, id_aux, flag=(sigma==1 ? 0 : 1), largest=0;
 	int *selected=malloc(sizeof(int)*kk);
 	double score, score_min, stilde, q;
 	double g=newman_ziff(graph, &largest, &stilde);
-	FILE *fout=fopen("output.dat","w");
+	FILE *fout=(sigma==1 ? fopen("output_sigma1.dat","w") : fopen("output_sigma2.dat","w"));
 
-	fprintf(stderr,"\nStarting sigma1 %.16g\n",threshold);
-	for(nnodes=0;nnodes<N;nnodes++){	
+	fprintf(stderr,"\nStarting sigma %d, threshold=%.5g\n",sigma, threshold);
+	for(nnodes=init;nnodes<N;nnodes++){	
 		q=1-nnodes*1./N;
 		fprintf(fout,"%lf %lf %lf\n",q,g, sqrt(stilde));
 		fprintf(stderr,"%07d G(%01.05f) = %.5f    \r",nnodes, q, g);
@@ -91,7 +100,7 @@ int explosive_sigma1(double threshold){
 			}
 			selected[i]=id;
 			graph[id].selected=true;
-			score=graph[id].effective_degree+count_sigma1(graph, id); //sigma1
+			score=(sigma==1 ? count_sigma1(graph, id) : count_sigma2(graph,id)); // choose proper score
 			if(score<score_min){
 				score_min=score;
 				id_min=id;
@@ -111,7 +120,7 @@ int explosive_sigma1(double threshold){
 	}
 	fclose(fout);
 	free(selected);
-	fprintf(stderr,"\nDone!\n");
+	fprintf(stderr,"\n sigma %d finished\n",sigma);
 	return 1;
 }
 

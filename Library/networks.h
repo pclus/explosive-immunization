@@ -22,15 +22,5 @@
 	#include "newman_ziff.h"
 #endif
 
-Node *make_netwrk_ER();   
-Node *make_netwrk_BA();
-int validate(Node *graph);
-int print_network(Node *graph);
 Node *read_net(char *name);
-int read_data();
-bool filter(char *s);
-Node *make_netwrk_SF(double degree);
-int *degree_SF(double degree, Node *graph, int *mm);
-int distribution(Node *graph);
-Node *make_netwrk_ER_expercol(char *name);
-Node *make_netwrk_ER_percol(char *name);
+int reset_net(Node *graph);

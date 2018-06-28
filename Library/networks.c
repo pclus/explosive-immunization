@@ -3,8 +3,6 @@
         #include "networks.h"
 #endif
 
-
-
 Node *read_net(char *name){
 	int i,j,k, n=0, edges=0;
 	FILE *fin;
@@ -60,9 +58,25 @@ Node *read_net(char *name){
 		}
 		graph[i].dynamic_degree=graph[i].virtual_degree;
 	}
+	fprintf(stderr,"\n");
 	fprintf(stdout,"Edges: %d\n",edges);
 	fprintf(stdout,"Single nodes: %d\n",csi);
 	fprintf(stderr,"\n");
 	fclose(fin);
 	return graph;
+}
+
+int reset_net(Node *graph){
+	fprintf(stderr,"Reseting network at threshold...");
+	int i,nn,nnodes=0;
+	FILE *fin=fopen("threshold_conditions.dat","r");
+        while(fscanf(fin,"%d %d\n",&i,&nn)!=EOF){
+                graph[i].pointer=graph+i;
+                graph[i].n=nn;
+                graph[i].selected=false;
+		nnodes+=nn;
+        }
+	fclose(fin);
+	fprintf(stderr,"done!\n");
+	return nnodes;
 }
