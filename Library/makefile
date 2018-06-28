@@ -1,7 +1,8 @@
 #Ask to http://www.network-theory.co.uk/docs/gccintro/gccintro_16.html
 # or to http://www.cs.colby.edu/maxwell/courses/tutorials/maketutor/
 CC=gcc
-CFLAGS=-Wall -Wno-maybe-uninitialized -Wno-unused-variable -Wno-unused-but-set-variable -Wno-unused-result -g -pg -lm -O3 -lgsl -lgslcblas
+#CFLAGS=-Wall -Wno-maybe-uninitialized -Wno-unused-variable -Wno-unused-but-set-variable -Wno-unused-result -g -pg -lm -O3 -lgsl -lgslcblas
+CFLAGS=-Wall -Wno-maybe-uninitialized -Wno-unused-variable -Wno-unused-but-set-variable -Wno-unused-result -g -pg -lm -O3
 SOURCES=rng.c networks.c scores.c newman_ziff.c queues.c exploimmun.c
 DEPENDENCIES=$(SOURCES:.c=.h)
 GLOBAL_DEP=macros.h node.h
