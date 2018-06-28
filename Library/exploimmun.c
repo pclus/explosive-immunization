@@ -45,9 +45,7 @@ int main(int argc, char **argv){
 //----------------------------------------------
 /*	 PRINT TIMES	*/
 //----------------------------------------------
-	FILE *ftime=fopen("times.dat","a");
- 	fprintf(ftime, "%d %.16g %.16g\n", kk, elapsed_time_sigma1, elapsed_time_sigma2);
-	fclose(ftime);
+ 	fprintf(stderr, "\n Elapsed time for sigma1: %.16g\n Computation time for sigma 2: %.16g\n", elapsed_time_sigma1, elapsed_time_sigma2);
 
 //----------------------------------------------
 /*	 FINISH	*/
@@ -135,9 +133,6 @@ int print_threshold_conditions(double q){
 	}
 	fclose(fic);
 
-	FILE *fth=fopen("thresholds.dat", "a");
-	fprintf(fth,"%d %.16g\n",kk, q);
-	fclose(fth);
 
 	fprintf(stderr,"Done!\n");
 	return 1;
