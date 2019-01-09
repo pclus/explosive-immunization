@@ -14,8 +14,7 @@ Node *read_net(char *name){
 	}
 	else{
 		fscanf(fin,"%d\n",&N);
-		fprintf(stderr,"\nNetwork size = %d\n",N);
-		fprintf(stdout,"NETWORK DATA:\n");
+		fprintf(stdout,"INPUT NETWORK DATA:\n");
 		fprintf(stdout,"Network name: %s\n",name);
 		fprintf(stdout,"Network size = %d\n",N);
 	}
@@ -31,7 +30,7 @@ Node *read_net(char *name){
 	} 
 	
 	while(fscanf(fin,"%d %d\n",&i, &j)!=EOF){
-		fprintf(stderr,"reading %06d %06d\r",i,j);
+		fprintf(stderr,"reading edge %06d %06d\r",i,j);
 		for(k=0;k<graph[i].virtual_degree;k++)		//check (and skip) repeated edges
 			if(graph[i].neigh[k]->id==graph[j].id)
 		    		break;
@@ -53,13 +52,11 @@ Node *read_net(char *name){
 	int csi=0;
 	for(i=0;i<N;i++){
 		graph[i].neigh=(Node **) realloc(graph[i].neigh,sizeof(Node *)*graph[i].virtual_degree);
-		if(graph[i].virtual_degree==0){
-			fprintf(stderr,"NOTE: There are %d singleton nodes\r",csi++);
-		}
+		if(graph[i].virtual_degree==0) ++csi;
 		graph[i].dynamic_degree=graph[i].virtual_degree;
 	}
-	fprintf(stderr,"\n");
-	fprintf(stdout,"Edges: %d\n",edges);
+	fprintf(stderr,"\n\n");
+	fprintf(stdout,"Total edges: %d\n",edges);
 	fprintf(stdout,"Single nodes: %d\n",csi);
 	fprintf(stderr,"\n");
 	fclose(fin);

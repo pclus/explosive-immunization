@@ -45,7 +45,7 @@ int main(int argc, char **argv){
 //----------------------------------------------
 /*	 PRINT TIMES	*/
 //----------------------------------------------
- 	fprintf(stderr, "\n Elapsed time for sigma1: %.16g\n Computation time for sigma 2: %.16g\n", elapsed_time_sigma1, elapsed_time_sigma2);
+ 	fprintf(stderr, "\nComputation time:\n\tscore 1: %.2g [seconds]\n\tscore 2: %.2g [seconds]\n", elapsed_time_sigma1, elapsed_time_sigma2);
 
 //----------------------------------------------
 /*	 FINISH	*/
@@ -61,7 +61,7 @@ int main(int argc, char **argv){
 /* Reads the input network file */
 int read_network(char *namefile){
 	int i;
-	fprintf(stderr,"Looking for %s network...\n",namefile);
+	fprintf(stderr,"Reading network file: %s\n\n",namefile);
 	if((graph=read_net(namefile))==NULL){
 		fprintf(stderr,"ERROR: File %s not found\n",namefile);
 		fprintf(stderr,"ERROR: program breaking\n");
