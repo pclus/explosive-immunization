@@ -3,6 +3,7 @@
 #include "newman_ziff.h"
 #endif
 
+/* Newman-Ziff algorithm for network percolation [ http://dx.doi.org/10.1103/PhysRevE.64.016706 ] */
 double newman_ziff(Node *graph, int *largest, double *stilde){
   int i,j,k, largest_size=1, nnodes=0;
   Node *root1, *root2, *aux;
@@ -37,7 +38,6 @@ double newman_ziff(Node *graph, int *largest, double *stilde){
 	    largest_size=root2->cluster_size;
 	    *largest=root2->id;
 	  }
-// 	  largest_size=(largest_size<root2->cluster_size ? root2->cluster_size : largest_size);
 	}
       }
   }
@@ -60,7 +60,7 @@ double newman_ziff_adapted(Node *graph){
     while(graph[i].visited){
       i=(i+1==N ? 0 : i+1);
       if(k++==N){
-	return 1.0*largest_size/N;//nnodes;
+	return 1.0*largest_size/N;
       }
     }
     graph[i].visited=true;
@@ -75,7 +75,6 @@ double newman_ziff_adapted(Node *graph){
 	  if(largest_size<root2->cluster_size){
 	    largest_size=root2->cluster_size;
 	  }
-// 	  largest_size=(largest_size<root2->cluster_size ? root2->cluster_size : largest_size);
 	}
       }
   }

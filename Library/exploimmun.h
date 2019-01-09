@@ -16,15 +16,9 @@
 #endif
 
 
-
 #ifndef NODE_H
 #define NODE_H
 	#include "node.h"
-#endif
-
-#ifndef QUEUES_H
-#define QUEUES_H
-	#include "queues.h"
 #endif
 
 #ifndef NETWORKS_H
