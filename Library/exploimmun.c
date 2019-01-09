@@ -1,7 +1,7 @@
 #include "exploimmun.h"
 
 Node *graph;
-// This is a stupid comment
+
 int main(int argc, char **argv){
 //----------------------------------------------
 /*	 INITIALIZATION 	*/
@@ -22,7 +22,7 @@ int main(int argc, char **argv){
 	effective_degree(graph); 			// effective degree computation
 	root=(int *) malloc(sizeof(int)*BUFFER);	//needed for the computation of scores, auxiliar.
 	initialize_rng(time(0));
-	double threshold=1./sqrt(N); 	//threshold two start sigma2
+	double threshold=1./sqrt(N); 	//approx. percolation threshold where to start sigma2
 	struct timeval time_begin, time_end;
 //----------------------------------------------
 /*	 COMPUTING SIGMA 1	*/
@@ -58,7 +58,7 @@ int main(int argc, char **argv){
 	return 1;
 }
 
-
+/* Reads the input network file */
 int read_network(char *namefile){
 	int i;
 	fprintf(stderr,"Looking for %s network...\n",namefile);
@@ -74,6 +74,7 @@ int read_network(char *namefile){
 	return 1;
 }
 
+/* Body of the method */
 int explosive_immunization(double threshold, int sigma, int init){
 	int id, i, j,id_min, imax, nnodes, id_aux, flag=(sigma==1 ? 0 : 1), largest=0;
 	int *selected=malloc(sizeof(int)*kk);
@@ -122,7 +123,7 @@ int explosive_immunization(double threshold, int sigma, int init){
 	return 1;
 }
 
-
+/* Stores the nodes vaccinated at the percolation threshold */
 int print_threshold_conditions(double q){
 	fprintf(stderr,"\nPrinting threshold conditions...\n");
 	int i;
